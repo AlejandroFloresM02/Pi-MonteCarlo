@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 
-int npoints = 10000;
+int npoints = 10000000;
 double pi = 0;
 int circle_count = 0;
 pthread_mutex_t lock;
@@ -14,9 +14,9 @@ void* monteCarlo(void *arg){
 	int temp_circle = 0;
         pthread_mutex_lock(&lock);
 	
-	for(int i= 0; i < 10000, points < npoints/(int)arg; i++, points++){  
-		double y_num = (double)(rand()%10000)/10000;
-		double x_num = (double)(rand()%10000)/10000;
+	for(int i= 0; i < 10000000, points < npoints/(int)arg; i++, points++){  
+		double y_num = (double)(rand()%10000000)/10000000;
+		double x_num = (double)(rand()%10000000)/10000000;
 
 		if( x_num*x_num + y_num*y_num <= 1){
 			circle_count++;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
 		i++;
 	}
 	pthread_mutex_destroy(&lock);
-	pi = (double)4.0*circle_count/10000.0;
+	pi = (double)4.0*circle_count/10000000.0;
 	printf("\n pi value = %f\n", pi);
 	return 0;
 }
