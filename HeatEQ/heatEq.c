@@ -9,10 +9,18 @@
 char tempMat[6][7] = {{'C','C','C','C','C','C','C'},{'C','C','C','C','C','C','C'},{'C','C','H','H','H','C','C'},{'C','C','H','H','H','C','C'},{'C','C','H','H','H','C','C'},{'C','C','C','C','C','C','C'}};
 int roomTemp[10][6][7];
 
+
+void delay(int numOfSec)
+{
+	int numOfMilliSec = 1000 * numOfSec;
+	clock_t startTime = clock();
+	while(clock() < startTime + numOfMilliSec);
+}
+
 void init_mat(){
     for(int i = 0; i < 10; i++){
         for (int j = 0; j < 6; j++){
-            for (int k = 0; i < 7; j++){
+            for (int k = 0; k < 7; k++){
                 roomTemp[i][j][k] = -1;
             }
             
@@ -63,6 +71,7 @@ void* defineTemp(void *arg){
         }else{
             roomTemp[k][i][j] = rand()%41 + 60;
         }
+        delay(200);
     }
     return NULL; 
 }
@@ -81,6 +90,7 @@ void heatEQ(){
 }
 
 int main(int argc, char *argv[]){
+    init_mat();
     int nthreads = atoi(argv[1]);
     pthread_t tid[nthreads];
     pthread_t master; 
@@ -99,7 +109,7 @@ int main(int argc, char *argv[]){
     if (err != 0)
                 printf("\ncan't create thread :[%s]", strerror(err));
     pthread_join(master, NULL);
-    pthread_cancel(master);
+    //pthread_cancel(master);
     for(i =0; i< nthreads; i++)pthread_cancel(tid[i]);
 
 
